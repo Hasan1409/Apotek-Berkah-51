@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apotek Berkah 51 - Apotek Online Terpercaya</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ffffff',
+                        secondary: '#2563eb',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .product-card:hover { transform: translateY(-5px); transition: all 0.3s; }
+        .cart-badge { animation: bounce 0.5s; }
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        .nav-btn { transition: all 0.3s; border-bottom: 3px solid transparent; }
+        .nav-btn:hover, .nav-btn.active { border-bottom-color: #2563eb; color: #2563eb; }
+        .tab-btn { transition: all 0.3s; }
+        .tab-btn:hover { border-bottom-color: #2563eb; }
+        .challenge-card { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); }
+        .discount-badge { animation: pulse 2s infinite; }
+        .voucher-card { transition: all 0.3s; }
+        .voucher-card:hover { transform: translateY(-2px); }
+        .profile-tab-btn { transition: all 0.3s; }
+        .profile-tab-btn:hover { border-bottom-color: #2563eb; }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        @keyframes bounce-in {
+            0% { opacity: 0; transform: scale(0.8); }
+            50% { transform: scale(1.05); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .animate-bounce-in { animation: bounce-in 0.3s ease-out; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-lg sticky top-0 z-50 border-b-4 border-blue-600">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-prescription-bottle-alt text-4xl text-blue-600"></i>
+                    <div>
+                        <h1 class="text-2xl font-bold text-blue-600">Apotek Berkah 51</h1>
+                        <p class="text-xs text-gray-600">Kesehatan Anda, Prioritas Kami</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <div class="hidden md:block text-right mr-4">
+                        <p class="text-sm text-gray-600">Selamat datang,</p>
+                        <p id="userName" class="font-bold text-blue-600"></p>
+                    </div>
+                    <button onclick="showChallenges()" class="bg-yellow-400 text-gray-800 px-4 py-2 rounded-lg hover:bg-yellow-500 font-bold">
+                        <i class="fas fa-gift mr-2"></i>Challenge
+                    </button>
+                    <button onclick="toggleCart()" class="relative bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span id="cartCount" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs cart-badge">0</span>
+                    </button>
+                    <button onclick="handleLogout()" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Menu -->
+    <nav class="bg-white shadow-md sticky top-20 z-40">
+        <div class="container mx-auto px-4">
+            <ul class="flex space-x-1 overflow-x-auto">
+                <li><button onclick="showSection('home')" class="nav-btn px-4 py-3 hover:bg-blue-50 font-semibold whitespace-nowrap"><i class="fas fa-home mr-2"></i>Beranda</button></li>
+                <li><button onclick="filterCategory('all')" class="nav-btn px-4 py-3 hover:bg-blue-50 font-semibold whitespace-nowrap"><i class="fas fa-pills mr-2"></i>Semua</button></li>
+                <li><button onclick="filterCategory('Demam')" class="nav-btn px-4 py-3 hover:bg-blue-50 font-semibold whitespace-nowrap">🌡️ Demam</button></li>
+                <li><button onclick="filterCategory('Batuk')" class="nav-btn px-4 py-3 hover:bg-blue-50 font-semibold whitespace-nowrap">😷 Batuk & Flu</button></li>
+                <li><button onclick="filterCategory('Pencernaan')" class="nav-btn px-4 py-3 hover:bg-blue-50 font-semibold whitespace-nowrap">🍽️ Pencernaan</button></li>
+                <li><button onclick="filterCategory('Nyeri')" class="nav-btn px-4 py-3 hover:bg-blue-50 font-semibold whitespace-nowrap">💊 Nyeri</button></li>
+                <li><button onclick="filterCategory('Alergi')" class="nav-btn px-4 py-3 hover:bg-blue-50 font-semibold whitespace-nowrap">🤧 Alergi</button></li>
+                <li><button onclick="filterCategory('Vitamin')" class="nav-btn px-4 py-3 hover:bg-blue-50 font-semibold whitespace-nowrap">💪 Vitamin</button></li>
+                <li><button onclick="filterCategory('Kulit')" class="nav-btn px-4 py-3 hover:bg-blue-50 font-semibold whitespace-nowrap">🧴 Kulit</button></li>
+                <li><button onclick="filterCategory('Mata')" class="nav-btn px-4 py-3 hover:bg-blue-50 font-semibold whitespace-nowrap">👁️ Mata</button></li>
+                <li><button onclick="openWhatsAppConsultation()" class="nav-btn px-4 py-3 hover:bg-blue-50 font-semibold whitespace-nowrap bg-green-50 text-green-600"><i class="fab fa-whatsapp mr-2"></i>Konsultasi</button></li>
+                <li><button onclick="showProfile()" class="nav-btn px-4 py-3 hover:bg-blue-50 font-semibold whitespace-nowrap"><i class="fas fa-user mr-2"></i>Profil</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Home Section -->
+        <section id="homeSection">
+            <!-- Hero Banner -->
+            <div class="bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl p-8 text-white mb-8">
+                <h2 class="text-4xl font-bold mb-4">🏥 Selamat Datang di Apotek Berkah 51</h2>
+                <p class="text-xl mb-6">Solusi kesehatan terpercaya dengan pengiriman cepat dan aman. Dapatkan diskon spesial dengan challenge menarik!</p>
+                <div class="flex space-x-4">
+                    <button onclick="filterCategory('all')" class="bg-white text-blue-600 px-8 py-3 rounded-lg font-bold hover:bg-gray-100">
+                        Belanja Sekarang <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                    <button onclick="showChallenges()" class="bg-yellow-400 text-gray-800 px-8 py-3 rounded-lg font-bold hover:bg-yellow-500">
+                        <i class="fas fa-gift mr-2"></i>Lihat Challenge
+                    </button>
+                </div>
+            </div>
+
+            <!-- Active Challenges Preview -->
+            <div class="bg-yellow-50 border-2 border-yellow-400 rounded-xl p-6 mb-8">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-2xl font-bold text-gray-800">🎁 Challenge - Klaim Voucher Gratis!</h3>
+                    <button onclick="showChallenges()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 font-bold">
+                        Lihat Semua <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-white p-4 rounded-lg shadow-md">
+                        <div class="text-3xl mb-2">�</div>
+                        <h4 class="font-bold text-lg mb-1">Belanja Minimal</h4>
+                        <p class="text-sm text-gray-600">Belanja min. Rp 50.000</p>
+                        <p class="text-blue-600 font-bold mt-2">Voucher Diskon 10%</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow-md">
+                        <div class="text-3xl mb-2">📦</div>
+                        <h4 class="font-bold text-lg mb-1">Beli Banyak</h4>
+                        <p class="text-sm text-gray-600">Beli min. 3 item berbeda</p>
+                        <p class="text-blue-600 font-bold mt-2">Voucher Gratis Ongkir</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow-md">
+                        <div class="text-3xl mb-2">⚡</div>
+                        <h4 class="font-bold text-lg mb-1">Pembeli Pertama</h4>
+                        <p class="text-sm text-gray-600">Otomatis aktif</p>
+                        <p class="text-blue-600 font-bold mt-2">Voucher Diskon 15%</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category Cards -->
+            <h3 class="text-2xl font-bold mb-4">Kategori Obat</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4 mb-8">
+                <div onclick="filterCategory('Demam')" class="bg-white p-4 rounded-lg shadow-md hover:shadow-xl cursor-pointer text-center transform hover:scale-105 transition">
+                    <div class="text-4xl mb-2">🌡️</div>
+                    <h4 class="font-bold text-sm">Demam</h4>
+                </div>
+                <div onclick="filterCategory('Batuk')" class="bg-white p-4 rounded-lg shadow-md hover:shadow-xl cursor-pointer text-center transform hover:scale-105 transition">
+                    <div class="text-4xl mb-2">😷</div>
+                    <h4 class="font-bold text-sm">Batuk & Flu</h4>
+                </div>
+                <div onclick="filterCategory('Pencernaan')" class="bg-white p-4 rounded-lg shadow-md hover:shadow-xl cursor-pointer text-center transform hover:scale-105 transition">
+                    <div class="text-4xl mb-2">🍽️</div>
+                    <h4 class="font-bold text-sm">Pencernaan</h4>
+                </div>
+                <div onclick="filterCategory('Nyeri')" class="bg-white p-4 rounded-lg shadow-md hover:shadow-xl cursor-pointer text-center transform hover:scale-105 transition">
+                    <div class="text-4xl mb-2">💊</div>
+                    <h4 class="font-bold text-sm">Nyeri</h4>
+                </div>
+                <div onclick="filterCategory('Alergi')" class="bg-white p-4 rounded-lg shadow-md hover:shadow-xl cursor-pointer text-center transform hover:scale-105 transition">
+                    <div class="text-4xl mb-2">🤧</div>
+                    <h4 class="font-bold text-sm">Alergi</h4>
+                </div>
+                <div onclick="filterCategory('Vitamin')" class="bg-white p-4 rounded-lg shadow-md hover:shadow-xl cursor-pointer text-center transform hover:scale-105 transition">
+                    <div class="text-4xl mb-2">💪</div>
+                    <h4 class="font-bold text-sm">Vitamin</h4>
+                </div>
+                <div onclick="filterCategory('Kulit')" class="bg-white p-4 rounded-lg shadow-md hover:shadow-xl cursor-pointer text-center transform hover:scale-105 transition">
+                    <div class="text-4xl mb-2">🧴</div>
+                    <h4 class="font-bold text-sm">Kulit</h4>
+                </div>
+                <div onclick="filterCategory('Mata')" class="bg-white p-4 rounded-lg shadow-md hover:shadow-xl cursor-pointer text-center transform hover:scale-105 transition">
+                    <div class="text-4xl mb-2">👁️</div>
+                    <h4 class="font-bold text-sm">Mata</h4>
+                </div>
+            </div>
+
+            <!-- Features -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                    <i class="fas fa-truck text-4xl text-blue-600 mb-3"></i>
+                    <h4 class="font-bold text-lg mb-2">Pengiriman Cepat</h4>
+                    <p class="text-gray-600 text-sm">Diantar langsung ke rumah Anda</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                    <i class="fas fa-certificate text-4xl text-blue-600 mb-3"></i>
+                    <h4 class="font-bold text-lg mb-2">Obat Original</h4>
+                    <p class="text-gray-600 text-sm">100% obat asli dan terjamin</p>
+                </div>
+                <div onclick="openWhatsAppConsultation()" class="bg-white p-6 rounded-lg shadow-md text-center cursor-pointer hover:shadow-xl transform hover:scale-105 transition">
+                    <i class="fas fa-user-md text-4xl text-green-600 mb-3"></i>
+                    <h4 class="font-bold text-lg mb-2">Konsultasi Gratis</h4>
+                    <p class="text-gray-600 text-sm">Apoteker siap membantu Anda</p>
+                    <button class="mt-3 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 font-bold">
+                        <i class="fab fa-whatsapp mr-2"></i>Chat Sekarang
+                    </button>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                    <i class="fas fa-gift text-4xl text-blue-600 mb-3"></i>
+                    <h4 class="font-bold text-lg mb-2">Banyak Promo</h4>
+                    <p class="text-gray-600 text-sm">Challenge & diskon menarik</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section id="productsSection" class="hidden">
+            <h2 id="sectionTitle" class="text-3xl font-bold text-gray-800 mb-6">Semua Produk</h2>
+            <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8"></div>
+        </section>
+
+        <!-- Profile Section -->
+        <section id="profileSection" class="hidden">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Profil Saya</h2>
+                
+                <!-- Profile Tabs -->
+                <div class="bg-white rounded-xl shadow-md mb-6">
+                    <div class="flex border-b">
+                        <button onclick="switchProfileTab('info')" id="tabInfo" class="profile-tab-btn flex-1 px-6 py-4 font-bold border-b-4 border-blue-600 text-blue-600">
+                            <i class="fas fa-user mr-2"></i>Informasi Profil
+                        </button>
+                        <button onclick="switchProfileTab('history')" id="tabHistory" class="profile-tab-btn flex-1 px-6 py-4 font-bold border-b-4 border-transparent text-gray-500 hover:text-blue-600">
+                            <i class="fas fa-history mr-2"></i>Riwayat Pembelian
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Profile Info Tab -->
+                <div id="profileInfoTab" class="bg-white rounded-xl shadow-md p-6">
+                    <h3 class="text-xl font-bold mb-6">Edit Profil</h3>
+                    <form onsubmit="updateProfile(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Nama Lengkap</label>
+                            <input type="text" id="profileName" required 
+                                   class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Email</label>
+                            <input type="email" id="profileEmail" required 
+                                   class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none">
+                            <p class="text-xs text-gray-500 mt-1">Mengubah email memerlukan verifikasi ulang</p>
+                        </div>
+                        
+                        <div class="border-t pt-4 mt-6">
+                            <h4 class="font-bold mb-4">Ubah Kata Sandi</h4>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-semibold mb-2">Kata Sandi Lama</label>
+                                    <input type="password" id="oldPassword" 
+                                           class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                                           placeholder="Kosongkan jika tidak ingin mengubah">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold mb-2">Kata Sandi Baru</label>
+                                    <input type="password" id="newPassword" minlength="6"
+                                           class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                                           placeholder="Min. 6 karakter">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold mb-2">Konfirmasi Kata Sandi Baru</label>
+                                    <input type="password" id="confirmNewPassword" minlength="6"
+                                           class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                                           placeholder="Ulangi kata sandi baru">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex space-x-4 pt-4">
+                            <button type="submit" class="flex-1 bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700">
+                                <i class="fas fa-save mr-2"></i>Simpan Perubahan
+                            </button>
+                            <button type="button" onclick="showSection('home')" class="flex-1 bg-gray-300 text-gray-700 py-3 rounded-lg font-bold hover:bg-gray-400">
+                                <i class="fas fa-times mr-2"></i>Batal
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Purchase History Tab -->
+                <div id="profileHistoryTab" class="hidden">
+                    <div id="purchaseHistory"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Challenge Modal -->
+    <div id="challengeModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-5xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b sticky top-0 bg-white z-10">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-2xl font-bold text-blue-600"><i class="fas fa-gift mr-2"></i>Challenge & Voucher Saya</h3>
+                    <button onclick="closeChallenges()" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="p-6">
+                <!-- Tabs -->
+                <div class="flex space-x-2 mb-6 border-b">
+                    <button onclick="switchTab('available')" id="tabAvailable" class="tab-btn px-6 py-3 font-bold border-b-4 border-blue-600 text-blue-600">
+                        Challenge Tersedia
+                    </button>
+                    <button onclick="switchTab('vouchers')" id="tabVouchers" class="tab-btn px-6 py-3 font-bold border-b-4 border-transparent text-gray-500 hover:text-blue-600">
+                        Voucher Saya <span id="voucherBadge" class="bg-red-500 text-white text-xs px-2 py-1 rounded-full ml-1">0</span>
+                    </button>
+                </div>
+
+                <!-- Available Challenges Tab -->
+                <div id="availableTab">
+                    <!-- Challenge Progress -->
+                    <div id="challengeProgress" class="mb-6"></div>
+                    
+                    <!-- Available Challenges -->
+                    <h4 class="text-xl font-bold mb-4">🎯 Selesaikan Challenge & Klaim Voucher</h4>
+                    <div id="challengesList" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                </div>
+
+                <!-- My Vouchers Tab -->
+                <div id="vouchersTab" class="hidden">
+                    <div id="myVouchersList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div id="cartSidebar" class="fixed right-0 top-0 h-full w-96 bg-white shadow-2xl transform translate-x-full transition-transform duration-300 z-50 overflow-y-auto">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-blue-600">Keranjang Belanja</h3>
+                <button onclick="toggleCart()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            
+            <div id="cartItems" class="space-y-4 mb-6"></div>
+            
+            <!-- Voucher Selection -->
+            <div id="voucherSection" class="mb-4"></div>
+            
+            <!-- Shipping Voucher Selection -->
+            <div id="shippingVoucherSection" class="mb-4"></div>
+            
+            <div class="border-t pt-4 space-y-3">
+                <div class="flex justify-between text-lg">
+                    <span>Subtotal:</span>
+                    <span id="subtotal" class="font-bold">Rp 0</span>
+                </div>
+                
+                <div id="discountSection" class="hidden">
+                    <div class="flex justify-between text-lg text-green-600">
+                        <span>Diskon Produk:</span>
+                        <span id="productDiscount" class="font-bold">- Rp 0</span>
+                    </div>
+                </div>
+                
+                <!-- Delivery Options -->
+                <div class="mt-4">
+                    <label class="block text-sm font-semibold mb-2">Pilih Pengiriman:</label>
+                    <select id="deliverySelect" onchange="calculateTotal()" class="w-full border-2 border-blue-300 rounded-lg p-2 focus:border-blue-600">
+                        <option value="0">Pilih Metode Pengiriman</option>
+                        <option value="10000">Reguler (1-2 hari) - Rp 10.000</option>
+                        <option value="15000">Express (Same Day) - Rp 15.000</option>
+                        <option value="20000">Instant (2-3 jam) - Rp 20.000</option>
+                    </select>
+                </div>
+                
+                <div class="flex justify-between text-lg">
+                    <span>Ongkir:</span>
+                    <span id="ongkir" class="font-bold text-blue-600">Rp 0</span>
+                </div>
+                
+                <div id="shippingDiscountSection" class="hidden">
+                    <div class="flex justify-between text-lg text-green-600">
+                        <span>Diskon Ongkir:</span>
+                        <span id="shippingDiscount" class="font-bold">- Rp 0</span>
+                    </div>
+                </div>
+                
+                <div class="flex justify-between text-xl font-bold border-t pt-3">
+                    <span>Total Bayar:</span>
+                    <span id="total" class="text-blue-600">Rp 0</span>
+                </div>
+                
+                <div id="savingsInfo" class="hidden bg-green-50 border-2 border-green-400 rounded-lg p-3 text-center">
+                    <p class="text-green-700 font-bold">🎉 Anda Hemat: <span id="totalSavings">Rp 0</span></p>
+                </div>
+                
+                <button onclick="checkout()" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 mt-4 font-bold">
+                    <i class="fas fa-check-circle mr-2"></i>Checkout Sekarang
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div id="overlay" onclick="toggleCart()" class="fixed inset-0 bg-black bg-opacity-50 hidden z-40"></div>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/6285706600737?text=Halo%20Apotek%20Berkah%2051%2C%20saya%20ingin%20konsultasi%20tentang%20obat" 
+       target="_blank"
+       class="fixed bottom-6 right-6 bg-green-500 text-white w-16 h-16 rounded-full shadow-2xl flex items-center justify-center hover:bg-green-600 z-50 hover:scale-110 transition-transform"
+       title="Konsultasi via WhatsApp">
+        <i class="fab fa-whatsapp text-3xl"></i>
+    </a>
+
+    <!-- WhatsApp Consultation Modal -->
+    <div id="whatsappModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-8 animate-bounce-in">
+            <div class="text-center mb-6">
+                <div class="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fab fa-whatsapp text-5xl text-green-600"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-800 mb-2">Konsultasi Gratis</h3>
+                <p class="text-gray-600">Chat dengan apoteker kami via WhatsApp</p>
+            </div>
+            
+            <div class="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 mb-6">
+                <div class="flex items-center space-x-3 mb-3">
+                    <i class="fas fa-phone text-blue-600 text-xl"></i>
+                    <div>
+                        <p class="text-sm text-gray-600">Nomor WhatsApp:</p>
+                        <p class="font-bold text-lg">+62 857-0660-0737</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-clock text-blue-600 text-xl"></i>
+                    <div>
+                        <p class="text-sm text-gray-600">Jam Operasional:</p>
+                        <p class="font-bold">Senin - Minggu, 08:00 - 21:00</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="space-y-3">
+                <button onclick="confirmWhatsAppConsultation()" class="w-full bg-green-500 text-white py-3 rounded-lg font-bold hover:bg-green-600 transition">
+                    <i class="fab fa-whatsapp mr-2"></i>Buka WhatsApp
+                </button>
+                <button onclick="closeWhatsAppModal()" class="w-full bg-gray-200 text-gray-700 py-3 rounded-lg font-bold hover:bg-gray-300 transition">
+                    Batal
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="apotek.js"></script>
+</body>
+</html>

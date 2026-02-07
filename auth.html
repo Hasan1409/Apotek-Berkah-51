@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apotek Berkah 51 - Apotek Online Terpercaya</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <style>
+        .auth-container { min-height: 100vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .auth-card { animation: slideUp 0.5s ease-out; }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container flex items-center justify-center p-4">
+        <div class="auth-card bg-white rounded-2xl shadow-2xl max-w-md w-full p-8">
+            <!-- Logo -->
+            <div class="text-center mb-8">
+                <i class="fas fa-prescription-bottle-alt text-6xl text-blue-600 mb-4"></i>
+                <h1 class="text-3xl font-bold text-gray-800">Apotek Berkah 51</h1>
+                <p class="text-gray-600 mt-2">Kesehatan Anda, Prioritas Kami</p>
+            </div>
+
+            <!-- Login Form -->
+            <div id="loginForm">
+                <h2 class="text-2xl font-bold mb-6 text-center">Masuk ke Akun</h2>
+                <form onsubmit="handleLogin(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Email</label>
+                        <input type="email" id="loginEmail" required 
+                               class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                               placeholder="nama@email.com">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Kata Sandi</label>
+                        <div class="relative">
+                            <input type="password" id="loginPassword" required 
+                                   class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                                   placeholder="Masukkan kata sandi">
+                            <button type="button" onclick="togglePassword('loginPassword')" 
+                                    class="absolute right-3 top-3 text-gray-500 hover:text-gray-700">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button type="submit" 
+                            class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition">
+                        <i class="fas fa-sign-in-alt mr-2"></i>Masuk
+                    </button>
+                </form>
+                <p class="text-center mt-6 text-gray-600">
+                    Belum punya akun? 
+                    <button onclick="showRegister()" class="text-blue-600 font-bold hover:underline">Daftar Sekarang</button>
+                </p>
+            </div>
+
+            <!-- Register Form -->
+            <div id="registerForm" class="hidden">
+                <h2 class="text-2xl font-bold mb-6 text-center">Buat Akun Baru</h2>
+                <form onsubmit="handleRegister(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Nama Lengkap</label>
+                        <input type="text" id="registerName" required 
+                               class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                               placeholder="Nama lengkap Anda">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Email</label>
+                        <input type="email" id="registerEmail" required 
+                               class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                               placeholder="nama@email.com">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Kata Sandi</label>
+                        <div class="relative">
+                            <input type="password" id="registerPassword" required minlength="6"
+                                   class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                                   placeholder="Min. 6 karakter">
+                            <button type="button" onclick="togglePassword('registerPassword')" 
+                                    class="absolute right-3 top-3 text-gray-500 hover:text-gray-700">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Konfirmasi Kata Sandi</label>
+                        <div class="relative">
+                            <input type="password" id="registerConfirmPassword" required minlength="6"
+                                   class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                                   placeholder="Ulangi kata sandi">
+                            <button type="button" onclick="togglePassword('registerConfirmPassword')" 
+                                    class="absolute right-3 top-3 text-gray-500 hover:text-gray-700">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button type="submit" 
+                            class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition">
+                        <i class="fas fa-user-plus mr-2"></i>Daftar
+                    </button>
+                </form>
+                <p class="text-center mt-6 text-gray-600">
+                    Sudah punya akun? 
+                    <button onclick="showLogin()" class="text-blue-600 font-bold hover:underline">Masuk</button>
+                </p>
+            </div>
+
+            <!-- Verification Form -->
+            <div id="verificationForm" class="hidden">
+                <h2 class="text-2xl font-bold mb-6 text-center">Verifikasi Email</h2>
+                <div class="text-center mb-6">
+                    <i class="fas fa-envelope-open-text text-6xl text-blue-600 mb-4"></i>
+                    <p class="text-gray-600">Kode verifikasi telah dikirim ke:</p>
+                    <p id="verificationEmail" class="font-bold text-lg mt-2"></p>
+                </div>
+                <form onsubmit="handleVerification(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold mb-2 text-center">Masukkan Kode Verifikasi (6 digit)</label>
+                        <input type="text" id="verificationCode" required maxlength="6" pattern="[0-9]{6}"
+                               class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none text-center text-2xl font-bold tracking-widest"
+                               placeholder="000000">
+                    </div>
+                    <button type="submit" 
+                            class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition">
+                        <i class="fas fa-check-circle mr-2"></i>Verifikasi
+                    </button>
+                    <button type="button" onclick="resendCode()" 
+                            class="w-full bg-gray-200 text-gray-700 py-3 rounded-lg font-bold hover:bg-gray-300 transition">
+                        <i class="fas fa-redo mr-2"></i>Kirim Ulang Kode
+                    </button>
+                </form>
+                <p class="text-center mt-6 text-gray-600">
+                    <button onclick="showLogin()" class="text-blue-600 font-bold hover:underline">Kembali ke Login</button>
+                </p>
+            </div>
+
+            <!-- Loading Overlay -->
+            <div id="loadingOverlay" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div class="bg-white rounded-xl p-8 text-center">
+                    <i class="fas fa-spinner fa-spin text-5xl text-blue-600 mb-4"></i>
+                    <p class="text-lg font-bold">Mengirim kode verifikasi...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+</body>
+</html>
